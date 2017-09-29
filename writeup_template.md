@@ -34,21 +34,9 @@ In order to obtain the training data features for the model, I used vehicle and 
 * Applying color space
 * Applying spatial feature
 * Applying HOG feature
-**Below are the parameters that I used to extract the HOG features data:**
-- color_space = 'GRAY' # Can be GRAY, RGB, HSV, LUV, HLS, YUV, YCrCb
-- orient = 8  # HOG orientations
-- pix_per_cell = 16 # HOG pixels per cell
-- cell_per_block = 1 # HOG cells per block
-- hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
-- spatial_size = (16, 16) # Spatial binning dimensions
-- hist_bins = 16    # Number of histogram bins
-- spatial_feat = False # Spatial features on or off
-- hist_feat = False # Histogram features on or off
-- hog_feat = True # HOG features on or off
+
 **Here are the example of pictures after applying the HOG features:**
-<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/HOG_8_images.png" width"00">
-
-
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/HOG_8_images.png" width="00">
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
@@ -64,17 +52,30 @@ I tried various combinations of parameters such as color_space, orient and spati
 - hist_feat = False # Histogram features on or off
 - hog_feat = True # HOG features on or off
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM using SVC classifier. The processes of training the model as following:
+1. Extract data features from raw car and non-car dataset (code block [9])
+2. Combined data features of car and non-car data 
+```X = np.vstack((car_features, notcar_features)).astype(np.float64)```
+3. Defined label vector 
+```y = np.hstack((np.ones(len(car_features)), np.zeros(len(notcar_features))))```
+4. Split data into train and test data set 
+```X_train, X_test, y_train, y_test = train_test_split(scaled_X, y, test_size=0.2, random_state=rand_state)```
+5. Train by using SVM model ```svc = SVC ()```
+6. By using 8 orientations 16 pixels per cell and 1 cells per block, I got **98.48%** of Test Accuracy.  
 
-###Sliding Window Search
+### Sliding Window Search
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+I used three windows sliding in order to detect for vehicles. These three window are:
+- Window 1: x_start_stop=[None,None], y_start_stop=[400,640],xy_window=[128,128], xy_overlap=(0.5,0.5)
+- Window 2: x_start_stop=[32,None], y_start_stop=[400,600],xy_window=[96,96], xy_overlap=(0.5,0.5)
+- Window 3: x_start_stop=[412,1280], y_start_stop=[390,540],xy_window=[80,80], xy_overlap=(0.5,0.5)
+Here are the pictures to present these windows:
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/sliding_windows_image.png" width="800">
 
-![alt text][image3]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
