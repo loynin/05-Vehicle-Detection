@@ -36,7 +36,7 @@ In order to obtain the training data features for the model, I used vehicle and 
 * Applying HOG feature
 
 **Here are the example of pictures after applying the HOG features:**
-<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/HOG_8_images.png" width="00">
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/HOG_8_images.png" width="800">
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
