@@ -1,7 +1,6 @@
-##Writeup Template
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+One up one a time, when I was watching Jamebon movie, I saw a car drive itself to save Jamebon. It was amazed me to wonder is it really there is a car that is really smart like that? Now, I am learning to build this car and I am exited about this opportunity and thrilt to use this knowledge to build my own smart car which is better than Jambon's car.
 
----
+In this project, I will develop a software that a self-driving car can detect object sourounding it so it better understand the world around it. Here, let begin...
 
 **Vehicle Detection Project**
 
@@ -14,46 +13,56 @@ The goals / steps of this project are the following:
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
-[//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+### Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
 
-###Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG)
 
-####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+##### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+In order to obtain the training data features for the model, I used vehicle and non-vehicle data provided by the udacity project. The following steps are the process of how to get the nessary data for the model:
+1. Reading raw data and loading it into array (this is in the block code #4 in the Jupyter notebook). After reading I have visualizing data and below are the result pictures: <img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/visual_8images.png" with="600">
+2. In order to extract features data, I used function ```extract_features()```. extract_feature function consists of three parts are: 
+* Applying color space
+* Applying spatial feature
+* Applying HOG feature
+**Below are the parameters that I used to extract the HOG features data:**
+- color_space = 'GRAY' # Can be GRAY, RGB, HSV, LUV, HLS, YUV, YCrCb
+- orient = 8  # HOG orientations
+- pix_per_cell = 16 # HOG pixels per cell
+- cell_per_block = 1 # HOG cells per block
+- hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
+- spatial_size = (16, 16) # Spatial binning dimensions
+- hist_bins = 16    # Number of histogram bins
+- spatial_feat = False # Spatial features on or off
+- hist_feat = False # Histogram features on or off
+- hog_feat = True # HOG features on or off
+**Here are the example of pictures after applying the HOG features:**
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/HOG_8_images.png" width"00">
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-![alt text][image1]
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 
-![alt text][image2]
+#### 2. Explain how you settled on your final choice of HOG parameters.
 
-####2. Explain how you settled on your final choice of HOG parameters.
-
-I tried various combinations of parameters and...
+I tried various combinations of parameters such as color_space, orient and spatial_size but most of the them provide inaccurate result in detecting car. After couple days of trying different set of parameters, I have decided to use the following values as they provide the most accurated detection the vehicles on the video. Here are the used parameters:
+- color_space = 'GRAY' # Can be GRAY, RGB, HSV, LUV, HLS, YUV, YCrCb
+- orient = 8  # HOG orientations
+- pix_per_cell = 16 # HOG pixels per cell
+- cell_per_block = 1 # HOG cells per block
+- hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
+- spatial_size = (16, 16) # Spatial binning dimensions
+- hist_bins = 16    # Number of histogram bins
+- spatial_feat = False # Spatial features on or off
+- hist_feat = False # Histogram features on or off
+- hog_feat = True # HOG features on or off
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
