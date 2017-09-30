@@ -77,11 +77,18 @@ Here are the pictures to present these windows:
 <img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/sliding_windows_image.png" width="800">
 
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on three scales using grayscale color-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
-![alt text][image4]
+1. Heat map image illustration:
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/heat_map_images.png" width="800">
+
+2. Here is a result of pipeline image illustration:
+<img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/Original_Lane_Vehicle_box.png" width="800">
+
+
+
 ---
 
 ### Video Implementation
