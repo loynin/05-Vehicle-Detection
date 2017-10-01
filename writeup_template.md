@@ -99,6 +99,11 @@ Here's a <a href="https://github.com/loynin/SDCN-05-Vehicle-Detection/blob/maste
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
+To complish the vehicle detection, I use three sliding windiws (size: 128x128, 96x96, and 80x80) because these windows detect most of the vehicles that they sould have on the image. In block code [11] of notebook, the ```get_hot_boxes()``` is used to detect the vehicles in the image and return all the positive detection.
+
+For overlap detection, I used method of averaging boxes. This method is implemented on the class ```AverageHotBox```. The process of averaging boxes method is I will calculate average size of overlaping boxes and create a single new and clean box from the overlaping boxes. 
+
+
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
