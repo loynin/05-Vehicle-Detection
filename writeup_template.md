@@ -93,38 +93,56 @@ Ultimately I searched on three scales using grayscale color-channel HOG features
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+###### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a <a href="https://github.com/loynin/SDCN-05-Vehicle-Detection/blob/master/project_result.mp4"> [link to my video result] </a>
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+###### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 To complish the vehicle detection, I use three sliding windiws (size: 128x128, 96x96, and 80x80) because these windows detect most of the vehicles that they sould have on the image. In block code [11] of notebook, the ```get_hot_boxes()``` is used to detect the vehicles in the image and return all the positive detection.
 
-For overlap detection, I used method of averaging boxes. This method is implemented on the class ```AverageHotBox```. The process of averaging boxes method is I will calculate average size of overlaping boxes and create a single new and clean box from the overlaping boxes. 
+For overlap detection, I used method of averaging boxes. This method is implemented on the class ```AverageHotBox```. The process of averaging boxes method is to calculate average size of overlaping boxes and create a single new and clean box from the overlaping boxes.
 
+The whole process of the pipeline is in the function ```process_image()```. 
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+```
+def process_image (image_orig):
+    
+    image_orig = np.copy (image_orig)
+    image = image_orig.astype(np.float32)/255
+    image_drawed = draw_lane_mark(image_orig)
+    # accumulating hot boxes over 10 last frames
+    hot_boxes, image_with_hot_boxes = get_hot_boxes (image)
+    last_hot_boxes.put_hot_boxes (hot_boxes)
+    hot_boxes = last_hot_boxes.get_hot_boxes ()
+    
+    # calculating average boxes and use strong ones
+    # need to tune strength on particular classifer
+    avg_boxes = calc_average_boxes (hot_boxes, 10)
+    image_with_boxes = draw_boxes(image_drawed, avg_boxes, color=(255, 0,0 ), thick=4)
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+    return image_with_boxes
+```
 
-### Here are six frames and their corresponding heatmaps:
+- Convert image by using ```image = image_orig.astype(np.float32)/255```
+- Draw a lane mark on the image (from project 4) ```image_drawed = draw_lane_mark(image_orig)```
+- Find the boxes by using ```hot_boxes, image_with_hot_boxes = get_hot_boxes (image)```
+- Store boxes in to last_hot_boxes until the limited numbers of frame reach ```last_hot_boxes.put_hot_boxes (hot_boxes)```
+- Retreived boxes for calcultion ```hot_boxes = last_hot_boxes.get_hot_boxes ()```
+- Find average boxes for vehicles ```avg_boxes = calc_average_boxes (hot_boxes, 10)```
+- Draw boxes back to image ```image_with_boxes = draw_boxes(image_drawed, avg_boxes, color=(255, 0,0 ), thick=4)```
 
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
+Finally, the video processing is in ```process_video()``` function. This function take an input video 'project_video.mp4' and output 'project_result.mp4'.
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+###### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The approach I used have some advantages and disadvantages. An important advantage is speed while I skip the heat map and image threshold it make the process faster. On the other hand, this approach may failed if there are too many cars on the images and some lightning condition that model could not predict accurately. In the future, I will considering to add heat map and threshold to make the process more robus.
+
+Credits:
+- Some of code I took from: https://github.com/parilo/carnd-vehicle-detection-and-tracking
+- Some of code I took from udacity lesson
 
