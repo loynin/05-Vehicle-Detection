@@ -1,6 +1,6 @@
-One up one a time, when I was watching Jamebon movie, I saw a car drive itself to save Jamebon. It was amazed me to wonder is it really there is a car that is really smart like that? Now, I am learning to build this car and I am exited about this opportunity and thrilt to use this knowledge to build my own smart car which is better than Jambon's car.
+One upon a time, when I was watching James Bond movie, I saw a car that can drive by itself to save James Bond. It was amazed me to wonder if it is really there is a car that can drive by itself? Now, I am in reality. I am learning to build this car and I am exited about this opportunity and thrill to use this knowledge to build my own self-driving car, which is better than James Bond’s car.
 
-In this project, I will develop a software that a self-driving car can detect object sourounding it so it better understand the world around it. Here, let begin...
+In this project, I will develop software that a self-driving car can detect object surrounding it so it can understand the world around it. Here, let begin...
 
 **Vehicle Detection Project**
 
@@ -14,13 +14,13 @@ The goals / steps of this project are the following:
 * Estimate a bounding box for vehicles detected.
 
 
-## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+#### [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
+ Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
 ### Writeup / README
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
 
@@ -29,7 +29,7 @@ You're reading it!
 ##### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
 In order to obtain the training data features for the model, I used vehicle and non-vehicle data provided by the udacity project. The following steps are the process of how to get the nessary data for the model:
-1. Reading raw data and loading it into array (this is in the block code #4 in the Jupyter notebook). After reading I have visualizing data and below are the result pictures: <img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/visual_8images.png" with="600">
+1. Reading raw data and loading it into array (this is in the block code #4 in the Jupyter notebook). After reading I have visualizing data and below are the result images: <img src="https://github.com/loynin/05-Vehicle-Detection/blob/master/output_images/visual_8images.png" with="600">
 2. In order to extract features data, I used function ```extract_features()```. extract_feature function consists of three parts are: 
 * Applying color space
 * Applying spatial feature
@@ -69,7 +69,7 @@ I trained a linear SVM using SVC classifier. The processes of training the model
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I used three windows sliding in order to detect for vehicles. These three window are:
+I used three windows sliding in order to detect for vehicles. These three windows are:
 - Window 1: x_start_stop=[None,None], y_start_stop=[400,640],xy_window=[128,128], xy_overlap=(0.5,0.5)
 - Window 2: x_start_stop=[32,None], y_start_stop=[400,600],xy_window=[96,96], xy_overlap=(0.5,0.5)
 - Window 3: x_start_stop=[412,1280], y_start_stop=[390,540],xy_window=[80,80], xy_overlap=(0.5,0.5)
@@ -99,7 +99,7 @@ Here's a <a href="https://github.com/loynin/SDCN-05-Vehicle-Detection/blob/maste
 
 ###### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-To complish the vehicle detection, I use three sliding windiws (size: 128x128, 96x96, and 80x80) because these windows detect most of the vehicles that they sould have on the image. In block code [11] of notebook, the ```get_hot_boxes()``` is used to detect the vehicles in the image and return all the positive detection.
+To complish the vehicle detection, I use three sliding windows (size: 128x128, 96x96, and 80x80) because these windows detect most of the vehicles that they sould have on the image. In block code [11] of notebook, the ```get_hot_boxes()``` is used to detect the vehicles in the image and return all the positive detection.
 
 For overlap detection, I used method of averaging boxes. This method is implemented on the class ```AverageHotBox```. The process of averaging boxes method is to calculate average size of overlaping boxes and create a single new and clean box from the overlaping boxes.
 
@@ -144,5 +144,5 @@ The approach I used have some advantages and disadvantages. An important advanta
 
 Credits:
 - Some of code I took from: https://github.com/parilo/carnd-vehicle-detection-and-tracking
-- Some of code I took from udacity lesson
+- Some of code I took from udacity
 
